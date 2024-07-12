@@ -1,0 +1,36 @@
+Inputs: instr[16], data[16], reset;
+Outputs: write, dataAddr[16], instrAddr[16], result[16];
+Parts:
+  dc DECODER, mr REGISTER16B, ar REGISTER16B, pc COUNTER16B, alu ALU16B,
+  mrVal MUX16B, beq AND, op1 MUX16B, op2 MUX4W16B;
+Wires: 
+  // decode instruction
+  instr -> dc.instr,
+  // 1,2 if (loadM) mr = (cToM) ? constant : alu.out
+  dc.cToM -> mrVal.sel, 
+  alu.out -> mrVal.in1, dc.constant -> mrVal.in2[1:15], 
+  mrVal.out -> mr.in, dc.loadM -> mr.load,
+  // 3 if (loadA) ar = alu.out
+  alu.out -> ar.in, dc.loadA -> ar.load,
+  // 4 write = loadD
+  dc.loadD -> write,
+  // 5 alu.opCode = opCode
+  dc.opCode -> alu.opCode,
+  // 6 op1 & 8 constant[1:5]
+  ar.out -> op1.in1, dc.constant[1:5] -> op1.in2[1:5], dc.op1 -> op1.sel,
+  // 7 op2 & 8 constant[1:5]
+  dc.constant[1:5] -> op2.in1[1:5], ar.out -> op2.in2, 
+  mr.out -> op2.in3, data -> op2.in4, dc.op2 -> op2.sel,
+  op1.out -> alu.in1, op2.out -> alu.in2,
+  // 9 BEQ
+  dc.jmpIfZ -> beq.in1, alu.zero -> beq.in2,
+  mr.out -> pc.in, beq.out -> pc.load,
+  // 10 result = alu.out
+  alu.out -> result,
+  // 11 dataAddr = mr
+  mr.out -> dataAddr,
+  // 12 instrAddr = pc
+  pc.out -> instrAddr,
+  // 13 reset
+  reset -> pc.reset
+;

@@ -1,0 +1,28 @@
+{
+  "name": "mhrd",
+  "version": "0.1.0",
+  "description": "MHRD Emulator",
+  "author": "Arathi of Nebnizilla",
+  "main": "index.js",
+  "scripts": {
+    "generate:mhrd": "antlr4 -Dlanguage=TypeScript -visitor antlr/MHRD.g4 -o src/antlr/mhrd",
+    "generate:mhdl": "antlr4 -Dlanguage=TypeScript -visitor antlr/MHDL.g4 -o src/antlr/mhdl",
+    "mhrd": "tsx src/index.ts",
+    "mhdl": "tsx src/mhdl.ts"
+  },
+  "keywords": [
+    "mhrd",
+    "grammar",
+    "antlr",
+    "hdl"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "antlr4": "4.13.1-patch-1",
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "tsx": "^4.16.2"
+  }
+}

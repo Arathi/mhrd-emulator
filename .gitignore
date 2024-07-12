@@ -1,0 +1,7 @@
+.vscode/
+node_modules/
+antlr/.antlr/
+
+src/antlr/mhrd/
+src/antlr/mhdl/
+src/antlr/ahdl/

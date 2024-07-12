@@ -1,0 +1,20 @@
+Inputs:
+    in_1,
+    in_2,
+;
+
+Outputs:
+    out,
+    carry,
+;
+
+Parts:
+    xor Xor,
+    and And,
+;
+
+Wires:
+    in_1 -> xor.in_1, in_2 -> xor.in_2,
+    in_1 -> and.in_1, in_2 -> and.in_2,
+    xor.out -> out, and.out -> carry,
+;

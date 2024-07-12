@@ -1,0 +1,17 @@
+component HalfAdder(
+    in_1,
+    in_2,
+) > (
+    out,
+    carry,
+) {
+    Xor xor;
+    in_1 > xor.in_1;
+    in_2 > xor.in_2;
+    xor.out > out;
+
+    And and;
+    in_1 > and.in_1;
+    in_2 > and.in_2;
+    and.out > carry;
+}

@@ -1,0 +1,76 @@
+Inputs:
+  inputPort1,
+  inputPort2,
+  inputBus1[16],
+  inputBus2[16];
+
+Outputs:
+  outputPort1,
+  outputPort2,
+  outputBus1[16],
+  outputBus2[16];
+
+Parts:
+  nand1 NAND,
+  nand2 NAND,
+  and1 AND,
+  and2 AND,
+  alu ALU,
+  mem MEM2K;
+
+Wires:
+  // port to port
+  0 -> outputPort1,
+  1 -> outputPort2,
+  inputPort1 -> outputPort1,
+  inputBus2[2] -> outputPort2,
+  nand1.out -> outputPort1,
+  alu.out[3] -> outputPort2,
+
+  // port to bus[port]
+  0 -> outputBus1[1],
+  1 -> outputBus2[1],
+  inputPort1 -> outputBus1[2],
+  inputBus2[2] -> outputBus2[2],
+  nand1.out -> outputBus1[3],
+  alu.out[3] -> outputBus2[3],
+
+  // port to part.port
+  0 -> alu.zero,
+  1 -> alu.type,
+  inputPort1 -> alu.zero,
+  inputBus2[2] -> alu.type,
+  nand1.out -> alu.zero,
+  alu.out[3] -> alu.type,
+
+  // port to part.bus[port]
+  0 -> alu.in1[1],
+  1 -> alu.in2[1],
+  inputPort1 -> alu.in1[2],
+  inputBus2[2] -> alu.in2[2],
+  nand1.out -> alu.in1[3],
+  alu.out[3] -> alu.in2[3],
+
+  // bus to bus
+  inputBus1 -> outputBus1,
+  inputBus1[1:16] -> outputBus1,
+  mem.data -> outputBus1,
+  mem.data[1:16] -> outputBus1,
+
+  // bus to bus[portStart:portEnd]
+  inputBus1 -> outputBus1[1:16],
+  inputBus1[1:16] -> outputBus1[1:16],
+  mem.data -> outputBus1[1:16],
+  mem.data[1:16] -> outputBus1[1:16],
+
+  // bus to part.bus
+  inputBus1 -> alu.out,
+  inputBus1[1:16] -> alu.out,
+  mem.data -> alu.out,
+  mem.data[1:16] -> alu.out,
+  
+  // bus to part.bus[portStart:portEnd]
+  inputBus1 -> alu.out[1:16],
+  inputBus1[1:16] -> alu.out[1:16],
+  mem.data -> alu.out[1:16],
+  mem.data[1:16] -> alu.out[1:16];
